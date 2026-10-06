@@ -8,9 +8,19 @@ enum CountyStatus: String, Codable, Hashable {
     var color: Color {
         switch self {
         case .found: .green
-        case .checked: .teal
+        case .checked: .blue
         case .visited: .orange
         case .open: .red
+        }
+    }
+
+    /// Darker than `color` so borders between counties of the same status stay visible
+    var borderColor: Color {
+        switch self {
+        case .found: Color(red: 0.0, green: 0.42, blue: 0.13)
+        case .checked: Color(red: 0.0, green: 0.2, blue: 0.65)
+        case .visited: Color(red: 0.72, green: 0.36, blue: 0.0)
+        case .open: Color(red: 0.7, green: 0.0, blue: 0.0)
         }
     }
 

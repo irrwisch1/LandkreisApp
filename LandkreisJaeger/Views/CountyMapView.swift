@@ -79,12 +79,12 @@ struct CountyMap: View, Equatable {
         MapReader { proxy in
             Map(position: $position) {
                 ForEach(model.counties) { county in
-                    let color = visits.status(county.id).color
+                    let status = visits.status(county.id)
                     let isCurrent = county.id == currentID
                     ForEach(county.polygons.indices, id: \.self) { i in
                         MapPolygon(county.polygons[i])
-                            .foregroundStyle(color.opacity(isCurrent ? 0.5 : 0.28))
-                            .stroke(isCurrent ? Color.blue : color, lineWidth: isCurrent ? 3 : 0.7)
+                            .foregroundStyle(status.color.opacity(isCurrent ? 0.5 : 0.28))
+                            .stroke(isCurrent ? Color.blue : status.borderColor, lineWidth: isCurrent ? 3 : 1)
                     }
                 }
                 UserAnnotation()
@@ -208,7 +208,7 @@ struct CheckButton: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
-            .tint(isChecked ? .secondary : .teal)
+            .tint(isChecked ? .secondary : .blue)
         }
     }
 }
