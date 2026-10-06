@@ -3,7 +3,7 @@ import CoreLocation
 
 @MainActor
 final class VisitStore: ObservableObject {
-    enum Status { case found, checked, visited, open }
+    typealias Status = CountyStatus
 
     @Published private(set) var finds: [String: Int] = [:]
     @Published private(set) var firstFinds: [String: Date] = [:]
@@ -94,24 +94,5 @@ final class VisitStore: ObservableObject {
     private func save() {
         let s = Snapshot(finds: finds, firstFinds: firstFinds, checked: checked, visited: visited, lastImport: lastImport)
         try? JSONEncoder().encode(s).write(to: file, options: .atomic)
-    }
-}
-
-extension VisitStore.Status {
-    var color: Color {
-        switch self {
-        case .found: .green
-        case .checked: .teal
-        case .visited: .orange
-        case .open: .red
-        }
-    }
-    var text: String {
-        switch self {
-        case .found: "Cache gefunden"
-        case .checked: "Abgehakt, noch nicht im Import"
-        case .visited: "Betreten, aber noch kein Fund"
-        case .open: "Noch offen"
-        }
     }
 }

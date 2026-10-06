@@ -7,6 +7,7 @@ struct SettingsView: View {
     @EnvironmentObject private var location: LocationService
 
     @AppStorage("powerSaving") private var powerSaving = false
+    @AppStorage(LiveActivityController.settingKey) private var liveActivity = true
     @StateObject private var findsImport = FindsImport()
     @State private var importPresented = false
     @State private var message: String?
@@ -30,6 +31,7 @@ struct SettingsView: View {
 
                 Section {
                     Toggle("Energiesparmodus", isOn: $powerSaving)
+                    Toggle("Live-Aktivität (Sperrbildschirm, CarPlay)", isOn: $liveActivity)
                     if location.authorization != .authorizedAlways {
                         Button("Standort „Immer“ erlauben") {
                             if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -40,7 +42,7 @@ struct SettingsView: View {
                 } header: {
                     Text("Alarm")
                 } footer: {
-                    Text("Sparmodus: Im Hintergrund nur „signifikante Ortswechsel“. Spart Akku, die Meldung kommt aber teils erst einige Kilometer hinter der Grenze.")
+                    Text("Sparmodus: Im Hintergrund nur „signifikante Ortswechsel“. Spart Akku, die Meldung kommt aber teils erst einige Kilometer hinter der Grenze.\nLive-Aktivität: zeigt den aktuellen Kreis auf dem Sperrbildschirm, in der Dynamic Island und in CarPlay. iOS beendet sie nach spätestens 8 Stunden, beim nächsten Öffnen der App startet sie neu.")
                 }
 
                 Section {
@@ -58,6 +60,7 @@ struct SettingsView: View {
             }
             .navigationTitle("Einstellungen")
             .onChange(of: powerSaving) { location.applyMode() }
+            .onChange(of: liveActivity) { AppEnvironment.shared.liveActivity.applySetting() }
             .fileImporter(isPresented: $importPresented,
                           allowedContentTypes: [.zip, UTType(filenameExtension: "gpx") ?? .xml, .xml]) { result in
                 guard case .success(let url) = result else { return }

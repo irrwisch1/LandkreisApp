@@ -46,14 +46,6 @@ enum Geo {
     }
 }
 
-enum Format {
-    static func km(_ meters: CLLocationDistance) -> String {
-        if meters < 1000 { return "\(Int(meters.rounded())) m" }
-        let s = String(format: meters < 10_000 ? "%.1f km" : "%.0f km", meters / 1000)
-        return s.replacingOccurrences(of: ".", with: ",")
-    }
-}
-
 enum FederalState {
     static let names: [String: String] = [
         "01": "Schleswig-Holstein", "02": "Hamburg", "03": "Niedersachsen", "04": "Bremen",

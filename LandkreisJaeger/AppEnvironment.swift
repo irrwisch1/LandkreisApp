@@ -24,6 +24,7 @@ final class AppEnvironment {
     let model = AppModel()
     let visits = VisitStore()
     let location = LocationService()
+    private(set) lazy var liveActivity = LiveActivityController(location: location, visits: visits)
 
     private init() {
         model.load()
@@ -32,6 +33,7 @@ final class AppEnvironment {
             self.countyEntered(county, notify: notify)
         }
         location.start()
+        liveActivity.applySetting()
     }
 
     private func countyEntered(_ county: County, notify: Bool) {
