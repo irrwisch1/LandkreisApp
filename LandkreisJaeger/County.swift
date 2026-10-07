@@ -7,6 +7,9 @@ struct County: Identifiable {
     let kind: String
     let polygons: [MKPolygon]
     let boundingRect: MKMapRect
+    /// Rings of all polygons with holes. MapKit strokes such polygons noticeably thicker,
+    /// so the map draws their borders as polylines instead.
+    let outlines: [MKPolyline]
 
     var displayName: String { kind.isEmpty ? name : "\(kind) \(name)" }
     var federalState: String { FederalState.name(forKey: String(id.prefix(2))) }
@@ -79,8 +82,19 @@ enum CountyLoader {
 
         return groups.map { ags, e in
             County(id: ags, name: e.name, kind: e.kind, polygons: e.polygons,
-                     boundingRect: e.polygons.reduce(MKMapRect.null) { $0.union($1.boundingMapRect) })
+                   boundingRect: e.polygons.reduce(MKMapRect.null) { $0.union($1.boundingMapRect) },
+                   outlines: e.polygons.filter(\.hasHoles).flatMap { [$0] + ($0.interiorPolygons ?? []) }.map(\.closedRing))
         }
         .sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
+    }
+}
+
+extension MKPolygon {
+    var hasHoles: Bool { !(interiorPolygons ?? []).isEmpty }
+
+    var closedRing: MKPolyline {
+        var pts = Array(UnsafeBufferPointer(start: points(), count: pointCount))
+        if let first = pts.first { pts.append(first) }
+        return MKPolyline(points: pts, count: pts.count)
     }
 }

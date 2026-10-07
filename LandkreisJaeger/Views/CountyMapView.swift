@@ -81,10 +81,19 @@ struct CountyMap: View, Equatable {
                 ForEach(model.counties) { county in
                     let status = visits.status(county.id)
                     let isCurrent = county.id == currentID
+                    let fill = status.color.opacity(isCurrent ? 0.5 : 0.28)
+                    let stroke = isCurrent ? Color.blue : status.borderColor
+                    let lineWidth: CGFloat = isCurrent ? 3 : 1
                     ForEach(county.polygons.indices, id: \.self) { i in
-                        MapPolygon(county.polygons[i])
-                            .foregroundStyle(status.color.opacity(isCurrent ? 0.5 : 0.28))
-                            .stroke(isCurrent ? Color.blue : status.borderColor, lineWidth: isCurrent ? 3 : 1)
+                        let polygon = county.polygons[i]
+                        if polygon.hasHoles {
+                            MapPolygon(polygon).foregroundStyle(fill)
+                        } else {
+                            MapPolygon(polygon).foregroundStyle(fill).stroke(stroke, lineWidth: lineWidth)
+                        }
+                    }
+                    ForEach(county.outlines.indices, id: \.self) { i in
+                        MapPolyline(county.outlines[i]).stroke(stroke, lineWidth: lineWidth)
                     }
                 }
                 UserAnnotation()
