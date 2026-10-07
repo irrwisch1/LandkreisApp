@@ -20,7 +20,13 @@ final class FindsImport: ObservableObject {
             let finds = GPXImporter.read(url) { f in
                 continuation.yield((f * 0.8, "Funde werden gelesen …"))
             }
-            let result = VisitStore.assign(finds, to: counties) { f in
+            let locate: (CLLocationCoordinate2D) -> String?
+            if let borders = try? CountyBorders.load() {
+                locate = borders.county(at:)
+            } else {
+                locate = { c in counties.first { $0.contains(c) }?.id }
+            }
+            let result = VisitStore.assign(finds, locate: locate) { f in
                 continuation.yield((0.8 + f * 0.2, "Kreise werden zugeordnet …"))
             }
             return (finds.count, result)

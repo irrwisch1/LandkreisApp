@@ -56,14 +56,14 @@ final class VisitStore: ObservableObject {
         return true
     }
 
-    nonisolated static func assign(_ finds: [Find], to counties: [County],
+    nonisolated static func assign(_ finds: [Find], locate: (CLLocationCoordinate2D) -> String?,
                                    progress: (Double) -> Void = { _ in }) -> ImportResult {
         var result = ImportResult()
         for (i, f) in finds.enumerated() {
-            if let c = counties.first(where: { $0.contains(f.coordinate) }) {
-                result.finds[c.id, default: 0] += 1
+            if let id = locate(f.coordinate) {
+                result.finds[id, default: 0] += 1
                 if let d = f.date {
-                    result.firstFinds[c.id] = min(result.firstFinds[c.id] ?? d, d)
+                    result.firstFinds[id] = min(result.firstFinds[id] ?? d, d)
                 }
             }
             if i % 250 == 0 { progress(Double(i) / Double(finds.count)) }
