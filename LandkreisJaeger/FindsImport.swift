@@ -7,7 +7,8 @@ final class FindsImport: ObservableObject {
     @Published private(set) var progress = 0.0
     @Published private(set) var phase = ""
 
-    func run(url: URL, counties: [County], visits: VisitStore) async -> (total: Int, matched: Int) {
+    func run(url: URL, model: AppModel, visits: VisitStore) async -> (total: Int, matched: Int) {
+        let counties = model.counties, loaded = model.borders
         isRunning = true
         progress = 0
         phase = "Datei wird gelesen …"
@@ -21,7 +22,7 @@ final class FindsImport: ObservableObject {
                 continuation.yield((f * 0.8, "Funde werden gelesen …"))
             }
             let locate: (CLLocationCoordinate2D) -> String?
-            if let borders = try? CountyBorders.load() {
+            if let borders = loaded ?? (try? CountyBorders.load()) {
                 locate = borders.county(at:)
             } else {
                 locate = { c in counties.first { $0.contains(c) }?.id }

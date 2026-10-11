@@ -65,7 +65,7 @@ struct SettingsView: View {
                           allowedContentTypes: [.zip, UTType(filenameExtension: "gpx") ?? .xml, .xml]) { result in
                 guard case .success(let url) = result else { return }
                 Task {
-                    let r = await findsImport.run(url: url, counties: model.counties, visits: visits)
+                    let r = await findsImport.run(url: url, model: model, visits: visits)
                     message = "\(r.total) Funde gelesen, davon \(r.matched) in Deutschland.\n\(visits.finds.count) Kreise sind jetzt grün."
                 }
             }

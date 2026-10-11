@@ -6,14 +6,38 @@ import UserNotifications
 final class AppModel: ObservableObject {
     @Published private(set) var counties: [County] = []
     @Published private(set) var loadError: String?
+    /// Exact borders, loaded in the background. If loading fails, the simplified map borders are used.
+    private(set) var borders: CountyBorders?
+    /// Set once loading the exact borders has finished, even if it failed
+    private(set) var bordersReady = false
+    var onBordersLoaded: (() -> Void)?
+    private var byID: [String: County] = [:]
 
     func load() {
-        do { counties = try CountyLoader.load() }
-        catch { loadError = error.localizedDescription }
+        do {
+            counties = try CountyLoader.load()
+            byID = Dictionary(uniqueKeysWithValues: counties.map { ($0.id, $0) })
+        } catch {
+            loadError = error.localizedDescription
+        }
+        Task {
+            borders = await Task.detached(priority: .utility) { try? CountyBorders.load() }.value
+            bordersReady = true
+            onBordersLoaded?()
+        }
     }
 
     func county(at c: CLLocationCoordinate2D) -> County? {
-        counties.first { $0.contains(c) }
+        guard let borders else { return counties.first { $0.contains(c) } }
+        return borders.county(at: c).flatMap { byID[$0] }
+    }
+
+    func contains(_ county: County, _ c: CLLocationCoordinate2D) -> Bool {
+        borders?.contains(county.id, c) ?? county.contains(c)
+    }
+
+    func distanceToBorder(of county: County, from c: CLLocationCoordinate2D) -> CLLocationDistance {
+        borders?.distanceToBorder(of: county.id, from: c) ?? county.nearestBorderPoint(to: c).distance
     }
 }
 
@@ -28,7 +52,8 @@ final class AppEnvironment {
 
     private init() {
         model.load()
-        location.counties = model.counties
+        location.model = model
+        model.onBordersLoaded = { [unowned self] in self.location.recheckCounty() }
         location.onCountyEntered = { [unowned self] county, notify in
             self.countyEntered(county, notify: notify)
         }

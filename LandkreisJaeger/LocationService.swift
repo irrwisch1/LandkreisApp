@@ -16,7 +16,7 @@ final class LocationService: NSObject, ObservableObject {
     @Published private(set) var neighbors: [Neighbor] = []
     @Published private(set) var authorization: CLAuthorizationStatus = .notDetermined
 
-    var counties: [County] = []
+    var model: AppModel?
     var onCountyEntered: ((County, _ notify: Bool) -> Void)?
 
     private let manager = CLLocationManager()
@@ -46,6 +46,12 @@ final class LocationService: NSObject, ObservableObject {
         manager.startMonitoringSignificantLocationChanges()
     }
 
+    func recheckCounty() {
+        guard let location else { return }
+        checkCountyChange(location)
+        computeDistances(location.coordinate)
+    }
+
     private func process(_ loc: CLLocation) {
         guard loc.horizontalAccuracy >= 0, loc.horizontalAccuracy <= 1000 else { return }
         location = loc
@@ -57,12 +63,13 @@ final class LocationService: NSObject, ObservableObject {
     }
 
     private func checkCountyChange(_ loc: CLLocation) {
+        guard let model, model.bordersReady else { return }
         let c = loc.coordinate
-        if let cur = currentCounty, cur.contains(c) { return }
+        if let cur = currentCounty, model.contains(cur, c) { return }
 
-        let candidate = counties.first { $0.contains(c) }
+        let candidate = model.county(at: c)
         if let d = candidate, currentCounty != nil,
-           d.nearestBorderPoint(to: c).distance < max(loc.horizontalAccuracy, 50) {
+           model.distanceToBorder(of: d, from: c) < max(loc.horizontalAccuracy, 50) {
             return
         }
 
@@ -75,6 +82,7 @@ final class LocationService: NSObject, ObservableObject {
     }
 
     private func computeDistances(_ c: CLLocationCoordinate2D) {
+        let counties = model?.counties ?? []
         var list: [Neighbor] = []
         list.reserveCapacity(counties.count)
         for d in counties where d.id != currentCounty?.id {
@@ -82,7 +90,7 @@ final class LocationService: NSObject, ObservableObject {
             list.append(Neighbor(county: d, distance: b.distance, bearing: Geo.bearing(from: c, to: b.point)))
         }
         neighbors = list.sorted { $0.distance < $1.distance }
-        distanceToBorder = currentCounty?.nearestBorderPoint(to: c).distance
+        distanceToBorder = currentCounty.flatMap { cur in model?.distanceToBorder(of: cur, from: c) }
     }
 }
 
