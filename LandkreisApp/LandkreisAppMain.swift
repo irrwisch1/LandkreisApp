@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct LandkreisJaegerApp: App {
+struct LandkreisAppMain: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     private let env = AppEnvironment.shared
 

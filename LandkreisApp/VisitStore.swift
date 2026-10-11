@@ -24,7 +24,7 @@ final class VisitStore: ObservableObject {
         var lastImport: Date?
     }
 
-    private let file = URL.documentsDirectory.appending(path: "landkreisjaeger.json")
+    private let file = URL.documentsDirectory.appending(path: "landkreisapp.json")
 
     init() { load() }
 

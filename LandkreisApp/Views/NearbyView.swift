@@ -41,7 +41,7 @@ struct NearbyView: View {
             .overlay {
                 if location.location == nil {
                     ContentUnavailableView("Kein Standort", systemImage: "location.slash",
-                                           description: Text("Bitte Ortungsdienste für LandkreisJäger erlauben."))
+                                           description: Text("Bitte Ortungsdienste für LandkreisApp erlauben."))
                 }
             }
         }

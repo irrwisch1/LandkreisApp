@@ -3,7 +3,7 @@ import SwiftUI
 import WidgetKit
 
 @main
-struct LandkreisJaegerWidgets: WidgetBundle {
+struct LandkreisAppWidgets: WidgetBundle {
     var body: some Widget {
         CountyLiveActivity()
     }

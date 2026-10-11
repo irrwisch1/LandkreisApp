@@ -1,6 +1,6 @@
 # Datenschutz
 
-LandkreisJäger sammelt keine Daten und überträgt nichts an einen Server, weder an den Entwickler noch an Dritte.
+LandkreisApp sammelt keine Daten und überträgt nichts an einen Server, weder an den Entwickler noch an Dritte.
 
 - **Standort:** wird nur auf dem Gerät verwendet, um den aktuellen Landkreis, Entfernungen zu Kreisgrenzen
   und die Mitteilung beim Betreten eines Kreises zu berechnen. Er wird nicht gespeichert oder weitergegeben.
@@ -17,7 +17,7 @@ Fragen bitte über die Issues des Projekts auf GitHub.
 
 # Privacy
 
-LandkreisJäger does not collect any data and does not send anything to a server, neither to the developer nor to third parties.
+LandkreisApp does not collect any data and does not send anything to a server, neither to the developer nor to third parties.
 
 - **Location** is used on the device only, to determine the current county, distances to county borders
   and the notification when entering a county. It is not stored or shared.

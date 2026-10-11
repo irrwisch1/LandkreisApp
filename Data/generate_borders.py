@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generates LandkreisJaeger/county-borders.lzfse from the BKG dataset VG25 (GeoPackage).
+"""Generates LandkreisApp/county-borders.lzfse from the BKG dataset VG25 (GeoPackage).
 
 These unsimplified borders are only used to assign finds to counties. The map keeps
 using the simplified VG250 data from counties.geojson.
@@ -36,7 +36,7 @@ SKIP = {"07932", "07935", "10942"}
 SCALE = 1_000_000
 
 gpkg = sys.argv[1] if len(sys.argv) > 1 else sys.exit("Please pass the path to DE_VG25.gpkg")
-out = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "LandkreisJaeger", "county-borders.lzfse"))
+out = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "LandkreisApp", "county-borders.lzfse"))
 
 to_wgs84 = Transformer.from_crs(25832, 4326, always_xy=True)
 
