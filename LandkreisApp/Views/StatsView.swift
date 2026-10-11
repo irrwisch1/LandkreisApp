@@ -36,7 +36,11 @@ struct StatsView: View {
                 }
                 Section("Bundesländer") {
                     ForEach(states) { state in
-                        ProgressRow(title: state.name, done: state.done, total: state.total)
+                        NavigationLink {
+                            StateCountiesView(state: state.name)
+                        } label: {
+                            ProgressRow(title: state.name, done: state.done, total: state.total)
+                        }
                     }
                 }
             }
@@ -59,5 +63,61 @@ struct ProgressRow: View {
             ProgressView(value: Double(done), total: Double(max(total, 1)))
                 .tint(.green)
         }
+    }
+}
+
+struct StateCountiesView: View {
+    let state: String
+
+    @EnvironmentObject private var model: AppModel
+    @EnvironmentObject private var visits: VisitStore
+    @EnvironmentObject private var location: LocationService
+    @EnvironmentObject private var router: AppRouter
+
+    var body: some View {
+        let counties = model.counties.filter { $0.federalState == state }
+        let open = counties.filter { !visits.isDone($0.id) }
+        let done = counties.filter { visits.isDone($0.id) }
+        let distances = Dictionary(uniqueKeysWithValues: location.neighbors.map { ($0.county.id, $0.distance) })
+
+        List {
+            if open.isEmpty {
+                Section {
+                    Label("Alle Kreise gefunden 🏆", systemImage: "checkmark.seal")
+                }
+            } else {
+                Section("Fehlen noch (\(open.count))") {
+                    ForEach(open) { row($0, distance: distances[$0.id]) }
+                }
+            }
+            if !done.isEmpty {
+                Section("Erledigt (\(done.count))") {
+                    ForEach(done) { row($0, distance: nil) }
+                }
+            }
+        }
+        .navigationTitle(state)
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func row(_ county: County, distance: Double?) -> some View {
+        Button { router.showOnMap(county) } label: {
+            HStack(spacing: 12) {
+                Circle()
+                    .fill(visits.status(county.id).color)
+                    .frame(width: 10, height: 10)
+                VStack(alignment: .leading) {
+                    Text(county.name)
+                    Text(county.kind).font(.caption).foregroundStyle(.secondary)
+                }
+                Spacer()
+                if county.id == location.currentCounty?.id {
+                    Text("Du bist hier").font(.caption).foregroundStyle(.secondary)
+                } else if let distance {
+                    Text(Format.km(distance)).monospacedDigit().foregroundStyle(.secondary)
+                }
+            }
+        }
+        .tint(.primary)
     }
 }
