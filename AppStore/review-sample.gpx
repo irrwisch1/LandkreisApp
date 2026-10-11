@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gpx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" creator="LandkreisApp review sample" xmlns="http://www.topografix.com/GPX/1/0">
+  <name>LandkreisApp review sample</name>
+  <desc>Sample finds for App Review, not real caches</desc>
+  <wpt lat="50.1109" lon="8.6821">
+    <name>SAMPLE1</name>
+    <desc>Sample find Frankfurt am Main</desc>
+    <type>Geocache|Traditional Cache</type>
+    <groundspeak:cache xmlns:groundspeak="http://www.groundspeak.com/cache/1/0/1">
+      <groundspeak:logs>
+        <groundspeak:log><groundspeak:date>2026-05-01T12:00:00Z</groundspeak:date><groundspeak:type>Found it</groundspeak:type></groundspeak:log>
+      </groundspeak:logs>
+    </groundspeak:cache>
+  </wpt>
+  <wpt lat="50.1060" lon="8.7620">
+    <name>SAMPLE2</name>
+    <desc>Sample find Offenbach am Main</desc>
+    <type>Geocache|Traditional Cache</type>
+    <groundspeak:cache xmlns:groundspeak="http://www.groundspeak.com/cache/1/0/1">
+      <groundspeak:logs>
+        <groundspeak:log><groundspeak:date>2026-05-02T12:00:00Z</groundspeak:date><groundspeak:type>Found it</groundspeak:type></groundspeak:log>
+      </groundspeak:logs>
+    </groundspeak:cache>
+  </wpt>
+  <wpt lat="49.8728" lon="8.6512">
+    <name>SAMPLE3</name>
+    <desc>Sample find Darmstadt</desc>
+    <type>Geocache|Traditional Cache</type>
+    <groundspeak:cache xmlns:groundspeak="http://www.groundspeak.com/cache/1/0/1">
+      <groundspeak:logs>
+        <groundspeak:log><groundspeak:date>2026-05-03T12:00:00Z</groundspeak:date><groundspeak:type>Found it</groundspeak:type></groundspeak:log>
+      </groundspeak:logs>
+    </groundspeak:cache>
+  </wpt>
+  <wpt lat="50.0782" lon="8.2398">
+    <name>SAMPLE4</name>
+    <desc>Sample find Wiesbaden</desc>
+    <type>Geocache|Traditional Cache</type>
+    <groundspeak:cache xmlns:groundspeak="http://www.groundspeak.com/cache/1/0/1">
+      <groundspeak:logs>
+        <groundspeak:log><groundspeak:date>2026-05-04T12:00:00Z</groundspeak:date><groundspeak:type>Found it</groundspeak:type></groundspeak:log>
+      </groundspeak:logs>
+    </groundspeak:cache>
+  </wpt>
+  <wpt lat="49.9767" lon="9.1490">
+    <name>SAMPLE5</name>
+    <desc>Sample find Aschaffenburg</desc>
+    <type>Geocache|Traditional Cache</type>
+    <groundspeak:cache xmlns:groundspeak="http://www.groundspeak.com/cache/1/0/1">
+      <groundspeak:logs>
+        <groundspeak:log><groundspeak:date>2026-05-05T12:00:00Z</groundspeak:date><groundspeak:type>Found it</groundspeak:type></groundspeak:log>
+      </groundspeak:logs>
+    </groundspeak:cache>
+  </wpt>
+  <wpt lat="50.2280" lon="8.6100">
+    <name>SAMPLE6</name>
+    <desc>Sample find Hochtaunuskreis</desc>
+    <type>Geocache|Traditional Cache</type>
+    <groundspeak:cache xmlns:groundspeak="http://www.groundspeak.com/cache/1/0/1">
+      <groundspeak:logs>
+        <groundspeak:log><groundspeak:date>2026-05-06T12:00:00Z</groundspeak:date><groundspeak:type>Found it</groundspeak:type></groundspeak:log>
+      </groundspeak:logs>
+    </groundspeak:cache>
+  </wpt>
+</gpx>
