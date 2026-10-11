@@ -50,6 +50,12 @@ struct SettingsView: View {
                 }
 
                 Section {
+                    Link(destination: URL(string: "https://github.com/irrwisch1/LandkreisApp/blob/main/privacy.md")!) {
+                        Label("Datenschutz", systemImage: "hand.raised")
+                    }
+                }
+
+                Section {
                     Text("Verwaltungsgrenzen: © [BKG](https://www.bkg.bund.de) (2026) [dl-de/by-2-0](https://www.govdata.de/dl-de/by-2-0), [Datenquellen](https://sgx.geodatenzentrum.de/web_public/gdz/datenquellen/datenquellen_vg_nuts.pdf). Daten verändert: Landflächen gefiltert, nach WGS84 umgerechnet, Grenzen vereinfacht.\n\nZuordnung der Funde: © [BKG](https://www.bkg.bund.de) (2026) [CC BY 4.0](https://creativecommons.org/licenses/by/4.0), [Datenquellen](https://sgx.geodatenzentrum.de/web_public/gdz/datenquellen/datenquellen_vg25.pdf). Daten verändert: nach WGS84 umgerechnet, Hanau als kreisfreie Stadt aus dem Main-Kinzig-Kreis herausgelöst, in ein eigenes Binärformat umgewandelt.")
                         .font(.footnote).foregroundStyle(.secondary)
                 }
