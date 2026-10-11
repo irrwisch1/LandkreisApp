@@ -50,11 +50,6 @@ Hinweis: Bei Mystery-Caches zählt die im GPX enthaltene Koordinate. Liegt das F
 ## Testen ohne Autofahrt
 In Xcode *Debug → Simulate Location* oder eine eigene GPX-Route laden, die über eine Kreisgrenze führt.
 
-## Ideen für Version 2
-- **Widget / Live Activity** mit aktuellem Kreis und Entfernung zum nächsten offenen Kreis (Sperrbildschirm, Dynamic Island).
-- **Routenplaner**: Route, die möglichst viele rote Kreise mitnimmt, plus passende Caches an der Strecke.
-- **CarPlay**-Ansicht für den aktuellen Kreis.
-
 ## Datenschutz
 Die App überträgt keine Daten, alles bleibt auf dem Gerät, siehe [privacy.md](privacy.md).
 Für den App Store dient der Link auf diese Datei als Datenschutz-URL, die GitHub-Issues als Support-URL.
